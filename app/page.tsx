@@ -5,13 +5,13 @@ import { useState } from 'react';
 
 export default function ChatPage() {
   const { messages, sendMessage, status } = useChat();
-  const [ input, setInput ] = useState('');
+  const [input, setInput] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (input.trim()) {
-      sendMessage({ text: input });
+      sendMessage({ content: input });
       setInput('');
     }
   };
@@ -34,7 +34,13 @@ export default function ChatPage() {
             <div className="font-semibold mb-1">
               {message.role === 'user' ? 'You' : 'AI'}
             </div>
-            <div className="whitespace-pre-wrap">{message.content}</div>
+            <div className="whitespace-pre-wrap">
+              {message.role === 'user'
+                ? message.content
+                : message.parts?.map((part, i) =>
+                    part.type === 'text' ? <span key={i}>{part.text}</span> : null
+                  )}
+            </div>
           </div>
         ))}
         
