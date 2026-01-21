@@ -3,7 +3,7 @@ import { anthropic } from '@ai-sdk/anthropic';
 
 export async function POST(req: Request) {
   // Extract the messages from the request body
-  const { messages } = req.json();
+  const { messages } = await req.json();
 
   // Ensure the messages adhere to the ModelMessages interface, which
   // is `streamText` expects.
